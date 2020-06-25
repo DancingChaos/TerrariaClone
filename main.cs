@@ -11,7 +11,8 @@ namespace Terraria
         static RenderWindow window;
 
         public static RenderWindow win { get { return window; } } 
-        public static Game game { private get; set; }
+        public static Game game { private set; get; }
+        public static Random rand { private set; get; }
 
         static void Main(string[] args)
         {
@@ -23,7 +24,8 @@ namespace Terraria
 
             Content.Load();
 
-            game = new Game(); 
+            rand = new Random(); 
+            game = new Game();
 
             while (window.IsOpen)
             {

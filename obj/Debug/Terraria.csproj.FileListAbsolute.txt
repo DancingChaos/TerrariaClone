@@ -1,0 +1,16 @@
+C:\Users\Admin\source\repos\Terraria\bin\Debug\Terraria.exe.config
+C:\Users\Admin\source\repos\Terraria\bin\Debug\Terraria.exe
+C:\Users\Admin\source\repos\Terraria\bin\Debug\Terraria.pdb
+C:\Users\Admin\source\repos\Terraria\obj\Debug\Terraria.csprojAssemblyReference.cache
+C:\Users\Admin\source\repos\Terraria\obj\Debug\Terraria.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\Terraria\obj\Debug\Terraria.exe
+C:\Users\Admin\source\repos\Terraria\obj\Debug\Terraria.pdb
+C:\Users\Admin\source\repos\Terraria\bin\Debug\SFML.Audio.dll
+C:\Users\Admin\source\repos\Terraria\bin\Debug\SFML.Graphics.dll
+C:\Users\Admin\source\repos\Terraria\bin\Debug\SFML.System.dll
+C:\Users\Admin\source\repos\Terraria\bin\Debug\SFML.Audio.xml
+C:\Users\Admin\source\repos\Terraria\bin\Debug\SFML.Graphics.xml
+C:\Users\Admin\source\repos\Terraria\bin\Debug\SFML.System.xml
+C:\Users\Admin\source\repos\Terraria\bin\Debug\SFML.Window.xml
+C:\Users\Admin\source\repos\Terraria\obj\Debug\Terraria.csproj.CopyComplete
+C:\Users\Admin\source\repos\Terraria\bin\Debug\SFML.Window.dll

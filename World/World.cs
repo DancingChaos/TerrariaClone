@@ -20,18 +20,16 @@ namespace Terraria
 
             for (int i = 0; i < WORLD_SIZE; i++)
                 chunks[i] = new Chunk[WORLD_SIZE];
-
-
         }
         public void GenerateWorld()
         {
             for (int x = 0; x < Chunk.CHUNK_SIZE; x++)
-                for (int y = 0; y < Chunk.CHUNK_SIZE; y++)
-                    SetTile(TileType.Ground, x, y);
+                for (int y = 17; y <= 17; y++)
+                    SetTile(TileType.GRASS, x, y);
 
-            for (int x = Chunk.CHUNK_SIZE; x < Chunk.CHUNK_SIZE * 2; x++)
-                for (int y = 0; y < Chunk.CHUNK_SIZE; y++)
-                    SetTile(TileType.Grass, x, y);
+            for (int x = 0; x < 50; x++)
+                for (int y = 18; y < Chunk.CHUNK_SIZE; y++)
+                    SetTile(TileType.GROUND, x, y);
         }
 
         public void SetTile(TileType type, int x, int y)
@@ -56,8 +54,6 @@ namespace Terraria
 
             return chunk.GetTile(tilePos.X, tilePos.Y);
         }
-
-
 
         public Chunk GetChunk(int x , int y)
         {

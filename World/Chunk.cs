@@ -5,7 +5,7 @@ namespace Terraria
 {
     class Chunk : Transformable, Drawable
     {
-        public const int CHUNK_SIZE = 25;
+        public const int CHUNK_SIZE = 50;
 
         Tile[][] tiles;
         Vector2i chunkPos;
