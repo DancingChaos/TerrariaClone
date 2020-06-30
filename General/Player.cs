@@ -52,7 +52,10 @@ namespace Terraria
         {
             UpdatePhysics();
             UpdateMovement();
-            Position += Velocity;
+            Position += Movement + Velocity;
+
+            if (Position.Y >  main.win.Size.Y)
+                Spawn();
         }
         private void UpdateMovement()
         {
@@ -72,6 +75,19 @@ namespace Terraria
                     Movement.X += PLAYER_SPEED_ACCELERATION;
                     Direction = 1;
                 }
+
+                if(Movement.X > PLAYER_SPEED)
+                {
+                    Movement.X = PLAYER_SPEED;
+                }
+                else if (Movement.X < -PLAYER_SPEED)
+                {
+                    Movement.X = -PLAYER_SPEED;
+                }
+            }
+            else
+            {
+                Movement = new Vector2f();
             }
 
         }
@@ -109,6 +125,8 @@ namespace Terraria
         public void Spawn()
         {
             Position = StartPosition;
+
+            Velocity = new Vector2f();
         }
     }
 }

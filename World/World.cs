@@ -23,12 +23,20 @@ namespace Terraria
         }
         public void GenerateWorld()
         {
-            for (int x = 0; x < Chunk.CHUNK_SIZE; x++)
+            for (int x = 3; x <= 46; x++)
                 for (int y = 17; y <= 17; y++)
                     SetTile(TileType.GRASS, x, y);
 
-            for (int x = 0; x < 50; x++)
-                for (int y = 18; y < Chunk.CHUNK_SIZE; y++)
+            for (int x = 3; x <= 46; x++)
+                for (int y = 18; y < 32; y++)
+                    SetTile(TileType.GROUND, x, y);
+
+            for (int x = 3; x <= 4; x++) 
+                for (int y = 1; y < 17; y++)
+                    SetTile(TileType.GROUND, x, y);
+
+            for (int x = 45; x <= 46; x++)
+                for (int y = 1; y < 17; y++)
                     SetTile(TileType.GROUND, x, y);
         }
 
@@ -59,6 +67,11 @@ namespace Terraria
         {
             int X = x / Chunk.CHUNK_SIZE;
             int Y = y / Chunk.CHUNK_SIZE;
+
+            if(X >= WORLD_SIZE || Y >= WORLD_SIZE)
+            {
+                return null; 
+            }
 
             if (chunks[X][Y] == null)
                 chunks[X][Y] = new Chunk(new Vector2i(X,Y));

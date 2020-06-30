@@ -24,7 +24,7 @@ namespace Terraria
         public void SetTile(TileType type, int x , int y, Tile upTileNeighbor, Tile downTileNeighbor , Tile leftTileNeighbor, Tile rightTileNeighbor)
         {
             tiles[x][y] = new Tile(type, upTileNeighbor , downTileNeighbor , leftTileNeighbor , rightTileNeighbor);
-            tiles[x][y].Position = new Vector2f(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE);
+            tiles[x][y].Position = new Vector2f(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE) + Position;
         }
         public Tile GetTile(int x, int y)
         {
@@ -36,15 +36,13 @@ namespace Terraria
 
         public void Draw(RenderTarget target, RenderStates states)
         {
-            states.Transform *= Transform;
-
             for (int x = 0; x < CHUNK_SIZE; x++)
             {
                 for (int y = 0; y < CHUNK_SIZE; y++)
                 {
                     if (tiles[x][y] == null) continue;
 
-                    target.Draw(tiles[x][y], states);
+                    target.Draw(tiles[x][y]);
                 }
             }
         }
