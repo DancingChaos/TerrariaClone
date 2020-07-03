@@ -59,6 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="General\Player.cs" />
+    <Compile Include="NPC\Npc.cs" />
+    <Compile Include="NPC\NpcSlime.cs" />
     <Compile Include="World\Chunk.cs" />
     <Compile Include="General\Content.cs" />
     <Compile Include="General\Game.cs" />
