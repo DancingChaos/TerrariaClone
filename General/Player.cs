@@ -67,11 +67,17 @@ namespace Terraria
             {
                 if (isLeft)
                 {
+                    if (Movement.X > 0)
+                        Movement.X = 0; 
+
                     Movement.X -= PLAYER_SPEED_ACCELERATION;
                     Direction = -1;
                 }
                 if (isRight)
                 {
+                    if (Movement.X < 0)
+                        Movement.X = 0;
+
                     Movement.X += PLAYER_SPEED_ACCELERATION;
                     Direction = 1;
                 }
