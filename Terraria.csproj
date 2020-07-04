@@ -60,6 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animation\AnimSprite.cs" />
+    <Compile Include="Items\Item.cs" />
+    <Compile Include="Items\ItemTile.cs" />
+    <Compile Include="NPC\Entity.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="NPC\NpcFastSlime.cs" />
     <Compile Include="NPC\Player.cs" />

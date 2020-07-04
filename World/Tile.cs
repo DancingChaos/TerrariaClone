@@ -17,10 +17,11 @@ namespace Terraria
     {
        public const int TILE_SIZE = 16; //tile size
 
+        public SpriteSheet SpriteSheet {get; set;} //tile sprite set
+
         TileType type = TileType.GROUND; //tile type
 
         RectangleShape rectShape; //rectangle tile
-        SpriteSheet spriteSheet; //tile sprite set
 
         //Соседи
         Tile upTileNeighbor = null; //up    
@@ -112,15 +113,15 @@ namespace Terraria
             switch (type)
             {
                 case TileType.GROUND:
-                    rectShape.Texture = Content.ground;//блок с землей
+                    SpriteSheet = new SpriteSheet(TILE_SIZE, TILE_SIZE,false, 1, Content.ground); //блок с землей
                     break;
-                case TileType.GRASS:
-                    rectShape.Texture = Content.grass;//блок с травой
+                case TileType.GRASS: 
+                   SpriteSheet = new SpriteSheet(TILE_SIZE, TILE_SIZE, false, 1, Content.grass);//блок с травой
                     break;
             }
 
-            //update sprite set 4 tile
-            spriteSheet = new SpriteSheet(TILE_SIZE, TILE_SIZE, 1);
+            rectShape.Texture = SpriteSheet.Texture;
+           
 
             //update viev with heighbor context
             UpdateView();
@@ -131,62 +132,62 @@ namespace Terraria
             if (UpTile != null && DownTile != null && LeftTile != null && RightTile != null)
             {
                 int i = World.rand.Next(0, 3);
-                rectShape.TextureRect = spriteSheet.GetTextureRect(1 + i, 1);
+                rectShape.TextureRect = SpriteSheet.GetTextureRect(1 + i, 1);
             }
 
             //нет соседей
             else if (UpTile == null && DownTile == null && LeftTile == null && RightTile == null)
             {
                 int i = World.rand.Next(0, 3);
-                rectShape.TextureRect = spriteSheet.GetTextureRect(9 + i, 3);
+                rectShape.TextureRect = SpriteSheet.GetTextureRect(9 + i, 3);
             }//----------------------------------------------------------------------
             //нет соседа сверху
             else if (UpTile == null && DownTile != null && LeftTile != null && RightTile != null)
             {
                 int i = World.rand.Next(0, 3);
-                rectShape.TextureRect = spriteSheet.GetTextureRect(1 + i, 0);
+                rectShape.TextureRect = SpriteSheet.GetTextureRect(1 + i, 0);
             }
             //нет соседа снизу
             else if (UpTile != null && DownTile == null && LeftTile != null && RightTile != null)
             {
                 int i = World.rand.Next(0, 3);
-                rectShape.TextureRect = spriteSheet.GetTextureRect(1 + i, 2);
+                rectShape.TextureRect = SpriteSheet.GetTextureRect(1 + i, 2);
             }
             //нет соседа слева
             else if (UpTile != null && DownTile != null && LeftTile == null && RightTile != null)
             {
                 int i = World.rand.Next(0, 3);
-                rectShape.TextureRect = spriteSheet.GetTextureRect(0, i);
+                rectShape.TextureRect = SpriteSheet.GetTextureRect(0, i);
             }
             //нет соседа справа
             else if (UpTile != null && DownTile != null && LeftTile != null && RightTile == null)
             {
                 int i = World.rand.Next(0, 3);
-                rectShape.TextureRect = spriteSheet.GetTextureRect(4, i);
+                rectShape.TextureRect = SpriteSheet.GetTextureRect(4, i);
             }//----------------------------------------------------------------------
             //нет соседа сверху слева
             else if (UpTile == null && DownTile != null && LeftTile == null && RightTile != null)
             {
                 int i = World.rand.Next(0, 3);
-                rectShape.TextureRect = spriteSheet.GetTextureRect(0 + i * 2, 3);
+                rectShape.TextureRect = SpriteSheet.GetTextureRect(0 + i * 2, 3);
             }
             //нет соседа сверху справа
             else if (UpTile == null && DownTile != null && LeftTile != null && RightTile == null)
             {
                 int i = World.rand.Next(0, 3);
-                rectShape.TextureRect = spriteSheet.GetTextureRect(1 + i * 2, 3);
+                rectShape.TextureRect = SpriteSheet.GetTextureRect(1 + i * 2, 3);
             }
             //нет соседа слева снизу
             else if (UpTile != null && DownTile == null && LeftTile == null && RightTile != null)
             {
                 int i = World.rand.Next(0, 3);
-                rectShape.TextureRect = spriteSheet.GetTextureRect(0 + i * 2, 4);
+                rectShape.TextureRect = SpriteSheet.GetTextureRect(0 + i * 2, 4);
             }
             //нет соседа справа снизу
             else if (UpTile != null && DownTile == null && LeftTile != null && RightTile == null)
             {
                 int i = World.rand.Next(0, 3);
-                rectShape.TextureRect = spriteSheet.GetTextureRect(1 + i * 2, 4);
+                rectShape.TextureRect = SpriteSheet.GetTextureRect(1 + i * 2, 4);
             }
         }
      //draw tile

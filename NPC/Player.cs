@@ -44,7 +44,7 @@ namespace Terraria
 
             ////ANIMATIONS
             ///asHair//////                                                  14
-            asHair = new AnimSprite(Content.texPlayerHair, new SpriteSheet(1, 14, 0, (int)Content.texPlayerHair.Size.X, (int)Content.texPlayerHair.Size.Y));
+            asHair = new AnimSprite(Content.texPlayerHair, new SpriteSheet(1, 14, true, 0, Content.texPlayerHair));
             asHair.Position = new Vector2f(0, 19);
             asHair.Color = HairColor;
             asHair.AddAnimation("idle", new Animation(
@@ -68,7 +68,7 @@ namespace Terraria
                ));
 
             ///asHead 
-            asHead = new AnimSprite(Content.texPlayerHead, new SpriteSheet(1, 20, 0, (int)Content.texPlayerHead.Size.X, (int)Content.texPlayerHead.Size.Y));
+            asHead = new AnimSprite(Content.texPlayerHead, new SpriteSheet(1, 20, true, 0, Content.texPlayerHead));
             asHead.Position = new Vector2f(0, 19);
             asHead.Color = BodyColor;
             asHead.AddAnimation("idle", new Animation(
@@ -92,7 +92,7 @@ namespace Terraria
                ));
 
             ///asShirt
-            asShirt = new AnimSprite(Content.texPlayerShirt, new SpriteSheet(1, 20, 0, (int)Content.texPlayerShirt.Size.X, (int)Content.texPlayerShirt.Size.Y));
+            asShirt = new AnimSprite(Content.texPlayerShirt, new SpriteSheet(1, 20, true, 0, Content.texPlayerShirt));
             asShirt.Position = new Vector2f(0, 19);
             asShirt.Color = ShirtColor;
             asShirt.AddAnimation("idle", new Animation(
@@ -116,7 +116,7 @@ namespace Terraria
                ));
 
             ///asUndersirt
-            asUnderhsirt = new AnimSprite(Content.texPlayerUndershirt, new SpriteSheet(1, 20, 0, (int)Content.texPlayerUndershirt.Size.X, (int)Content.texPlayerUndershirt.Size.Y));
+            asUnderhsirt = new AnimSprite(Content.texPlayerUndershirt, new SpriteSheet(1, 20, true, 0, Content.texPlayerUndershirt));
             asUnderhsirt.Position = new Vector2f(0, 19);
             asUnderhsirt.Color = ShirtColor;
             asUnderhsirt.AddAnimation("idle", new Animation(
@@ -140,7 +140,7 @@ namespace Terraria
                ));
 
             ///asHands
-            asHands = new AnimSprite(Content.texPlayerHands, new SpriteSheet(1, 20, 0, (int)Content.texPlayerHands.Size.X, (int)Content.texPlayerHands.Size.Y));
+            asHands = new AnimSprite(Content.texPlayerHands, new SpriteSheet(1, 20, true, 0, Content.texPlayerHands));
             asHands.Position = new Vector2f(0, 19);
             asHands.Color = BodyColor;
             asHands.AddAnimation("idle", new Animation(
@@ -164,7 +164,7 @@ namespace Terraria
                ));
 
             ///asLegs
-            asLegs = new AnimSprite(Content.texPlayerLegs, new SpriteSheet(1, 20, 0, (int)Content.texPlayerLegs.Size.X, (int)Content.texPlayerLegs.Size.Y));
+            asLegs = new AnimSprite(Content.texPlayerLegs, new SpriteSheet(1, 20, true, 0, Content.texPlayerLegs));
             asLegs.Position = new Vector2f(0, 19);
             asLegs.Color = LegsColor;
             asLegs.AddAnimation("idle", new Animation(
@@ -188,7 +188,7 @@ namespace Terraria
                ));
 
             ///asShoes
-            asShoes = new AnimSprite(Content.texPlayerShoes, new SpriteSheet(1, 20, 0, (int)Content.texPlayerShoes.Size.X, (int)Content.texPlayerShoes.Size.Y));
+            asShoes = new AnimSprite(Content.texPlayerShoes, new SpriteSheet(1, 20, true, 0, Content.texPlayerShoes));
             asShoes.Position = new Vector2f(0, 19);
             asShoes.Color = ShoesColor;
             asShoes.AddAnimation("idle", new Animation(

@@ -5,10 +5,13 @@ namespace Terraria
 {
     class SpriteSheet
     {
-        public int SubWight { get { return subW; } }
-        public int SubHeight { get { return subH; } }
+        public int SubWight { get; private set; }
+        public int SubHeight { get; private set; }
+        public int SubCountX { get; private set; }
+        public int SubCountY { get; private set; }
 
-        int subW, subH; //texture size
+        public Texture Texture;
+
         int borderSize; //короче манал переводить, это отступ между фрагментами текстуры
 
         /// <summary>
@@ -16,11 +19,14 @@ namespace Terraria
         /// </summary>
         /// <param name="a">количество фрагметов по Х</param>
         /// <param name="b">та же херня по Y</param>
+        /// <param name="abIsCount">количество фрагментов по X & Y</param>
         /// <param name="borderSize">отступ между фрагментами текстуры</param>
         /// <param name="texW">высота текстуры</param>
         /// <param name="texH">ширина текстуры</param>
-        public SpriteSheet(int a, int b, int borderSize, int texW = 0, int texH = 0)
+        public SpriteSheet(int a, int b, bool abIsCount, int borderSize, Texture texture, bool isSmooth = true)
         {
+            Texture = texture;
+            texture.Smooth = isSmooth;
 
             if (borderSize > 0)
             {
@@ -31,24 +37,35 @@ namespace Terraria
                 this.borderSize = 0;
             }
 
-            if (texW != 0 && texH != 0)
+            if (abIsCount)
             {
-                subW = (int)Math.Ceiling((float)texW / a);
-                subH = (int)Math.Ceiling((float)texH / b);
+                SubWight = (int)Math.Ceiling((float)texture.Size.X / a);
+                SubHeight = (int)Math.Ceiling((float)texture.Size.Y / b);
+                SubCountX = a;
+                SubCountY = b;
             }
             else
             {
-                subW = a;
-                subH = b;
+                SubWight = a;
+                SubHeight = b;
+                SubCountX = (int)Math.Ceiling((float)texture.Size.X / a);
+                SubCountY = (int)Math.Ceiling((float)texture.Size.Y / b);
             }
+        }
+
+        //clear texture memory
+        public void Dispose()
+        {
+            Texture.Dispose();
+            Texture = null;
         }
 
         //get texture
         public IntRect GetTextureRect(int i, int j)
         {
-            int x = i * subW + i * borderSize;
-            int y = j * subH + j * borderSize;
-            return new IntRect(x, y, subW, subH);
+            int x = i * SubWight + i * borderSize;
+            int y = j * SubHeight + j * borderSize;
+            return new IntRect(x, y, SubWight, SubHeight);
         }
     }
 }

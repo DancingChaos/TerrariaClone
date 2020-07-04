@@ -11,7 +11,7 @@ namespace Terraria
     class Game
     {
         World world;
-        Player player;
+        public Player Player {get; private set;}
         NpcSlime slime;
         NpcFastSlime fastSlime;
 
@@ -25,9 +25,9 @@ namespace Terraria
             world.GenerateWorld(555);
 
             //Spawn player
-            player = new Player(world);
-            player.StartPosition = new SFML.System.Vector2f(300, 150);
-            player.Spawn();
+            Player = new Player(world);
+            Player.StartPosition = new SFML.System.Vector2f(300, 150);
+            Player.Spawn();
 
             //Spawn slime
             slime = new NpcSlime(world);
@@ -53,7 +53,8 @@ namespace Terraria
 
         public void Update()
         {
-            player.Update();
+            world.Update();
+            Player.Update();
             slime.Update();
             fastSlime.Update();
             //slimes 
@@ -63,7 +64,7 @@ namespace Terraria
         public void Draw()
         {
             main.Window.Draw(world);
-            main.Window.Draw(player);
+            main.Window.Draw(Player);
             main.Window.Draw(slime);
             main.Window.Draw(fastSlime);
             //slimes 

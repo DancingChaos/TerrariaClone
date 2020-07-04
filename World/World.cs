@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria.Items;
 
 namespace Terraria
 {
@@ -17,7 +18,11 @@ namespace Terraria
 
         public static Random rand { private set; get; }
 
+        //tiles
         Tile[,] tiles;
+
+        //item list
+        List<Item> items = new List<Item>();
 
         //constr
         public World()
@@ -51,7 +56,7 @@ namespace Terraria
             }
 
             //сглаживание
-            for (int i = 1; i < WORLD_WIGHT -1; i++)
+            for (int i = 1; i < WORLD_WIGHT - 1; i++)
             {
                 float sum = arr[i];
                 int count = 1;
@@ -61,14 +66,14 @@ namespace Terraria
                     int i2 = i + k;
 
 
-                    if(i1 > 0 )
+                    if (i1 > 0)
                     {
                         sum += arr[i1];
                         count++;
                     }
 
 
-                    if(i2 < WORLD_WIGHT )
+                    if (i2 < WORLD_WIGHT)
                     {
                         sum += arr[i2];
                         count++;
@@ -82,9 +87,9 @@ namespace Terraria
             for (int i = 0; i < WORLD_WIGHT; i++)
             {
                 SetTile(TileType.GRASS, i, arr[i]);
-                for (int j = arr[i]+1; j < WORLD_HEIGHT; j++)
+                for (int j = arr[i] + 1; j < WORLD_HEIGHT; j++)
                     SetTile(TileType.GROUND, i, j);
-                
+
             }
         }
 
@@ -105,6 +110,14 @@ namespace Terraria
             }
             else
             {
+                var tile = tiles[i, j];
+                if (tile != null)
+                {
+                    var item = new ItemTile(this, tile);
+                    item.Position = tile.Position;
+                    items.Add(item);
+                }
+
                 tiles[i, j] = null;
 
                 if (upTileNeighbor != null)
@@ -143,7 +156,20 @@ namespace Terraria
                 return null;
         }
 
+        //update world
+        public void Update()
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].isDestroyed)
+                    items.RemoveAt(i);
+                else
+                    items[i].Update();
 
+            }
+        }
+
+        //draw world        //SOOOOOMEBODYYYY FIX THIS FUNCTION WITHOUT A GUN!
         public void Draw(RenderTarget target, RenderStates states)
         {
             for (int i = 0; i < main.Window.Size.X / Tile.TILE_SIZE + 1; i++)
@@ -153,6 +179,12 @@ namespace Terraria
                     if (tiles[i, j] != null)
                         target.Draw(tiles[i, j]);
                 }
+            }
+
+            //draw items
+            foreach (var item in items)
+            {
+                target.Draw(item);
             }
         }
     }
