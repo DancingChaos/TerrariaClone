@@ -4,40 +4,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
+using SFML.System;
+
 namespace Terraria
 {
     class main
     {
-        static RenderWindow window;
-
-        public static RenderWindow win { get { return window; } } 
+        public static RenderWindow Window { private set; get; }
         public static Game game { private set; get; }
-        public static Random rand { private set; get; }
+        public static float Delta { private set; get; }
 
         static void Main(string[] args)
         {
-            window = new RenderWindow(new SFML.Window.VideoMode(800, 700), "Terraria");
-            window.SetVerticalSyncEnabled(true);
+            Window = new RenderWindow(new SFML.Window.VideoMode(800, 700), "Terraria");
+            Window.SetVerticalSyncEnabled(true);
 
-            window.Closed += Window.Win_Closed;
-            window.Resized += Window.Win_Resized;
+            Window.Closed += Terraria.Window.Win_Closed;
+            Window.Resized += Terraria.Window.Win_Resized;
 
             Content.Load();
-
-            rand = new Random(); 
+            
             game = new Game();
+            Clock clock = new Clock();
 
-            while (window.IsOpen)
+            while (Window.IsOpen)
             {
-                window.DispatchEvents();
+                Delta = clock.Restart().AsSeconds();
+
+                Window.DispatchEvents();
 
                 game.Update();
 
-                window.Clear(Color.Black);
+                Window.Clear(Color.Black);
 
                 game.Draw();
 
-                window.Display();
+                Window.Display();
             }
         }
 

@@ -22,7 +22,7 @@ namespace Terraria
         {
             //gen new world
             world = new World();
-            world.GenerateWorld();
+            world.GenerateWorld(555);
 
             //Spawn player
             player = new Player(world);
@@ -43,8 +43,8 @@ namespace Terraria
             for (int i = 0; i < 10; i++)
             {
                 var s = new NpcSlime(world);
-                s.StartPosition = new Vector2f(main.rand.Next(150, 600), 150);
-                s.Direction = main.rand.Next(0, 2) == 0 ? 1 : -1;
+                s.StartPosition = new Vector2f(World.rand.Next(150, 600), 150);
+                s.Direction = World.rand.Next(0, 2) == 0 ? 1 : -1;
                 s.Spawn();
                 slimes.Add(s);
             }
@@ -62,13 +62,13 @@ namespace Terraria
         }
         public void Draw()
         {
-            main.win.Draw(world);
-            main.win.Draw(player);
-            main.win.Draw(slime);
-            main.win.Draw(fastSlime);
+            main.Window.Draw(world);
+            main.Window.Draw(player);
+            main.Window.Draw(slime);
+            main.Window.Draw(fastSlime);
             //slimes 
             foreach (var s in slimes)
-                main.win.Draw(s);
+                main.Window.Draw(s);
         }
 
     }

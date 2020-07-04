@@ -36,7 +36,7 @@ namespace Terraria.NPC
             int rMin = 0, gMin = 0, bMin = 0;
             int rMax = 255, gMax = 255, bMax = 255;
 
-            switch (main.rand.Next(1, 8))
+            switch (World.rand.Next(1, 8))
             {
                 case 1: //all
                     rMin = minSlimeColor;
@@ -74,7 +74,7 @@ namespace Terraria.NPC
                     bMin = minSlimeColor;
                     break;
             }
-            return new Color(Convert.ToByte(main.rand.Next(rMin, rMax)), Convert.ToByte(main.rand.Next(gMin, gMax)), Convert.ToByte(main.rand.Next(bMin, bMax)), Convert.ToByte(slimeVisible));
+            return new Color(Convert.ToByte(World.rand.Next(rMin, rMax)), Convert.ToByte(World.rand.Next(gMin, gMax)), Convert.ToByte(World.rand.Next(bMin, bMax)), Convert.ToByte(slimeVisible));
         }
 
 
@@ -118,7 +118,7 @@ namespace Terraria.NPC
         //GetJumpVelocity
         public virtual Vector2f GetJumpVelocity()
         {
-            return new Vector2f(Direction * main.rand.Next(1, 10), -main.rand.Next(6, 9));
+            return new Vector2f(Direction * World.rand.Next(1, 10), -World.rand.Next(6, 9));
         }
     }
 }

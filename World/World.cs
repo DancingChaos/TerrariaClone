@@ -11,99 +11,147 @@ namespace Terraria
     class World : Transformable, Drawable
     {
         //chunk quantity
-        public const int WORLD_SIZE = 5;
+        public const int WORLD_WIGHT = 300;
+        public const int WORLD_HEIGHT = 100;
 
-        Chunk[][] chunks;
+
+        public static Random rand { private set; get; }
+
+        Tile[,] tiles;
 
         //constr
         public World()
         {
-            chunks = new Chunk[WORLD_SIZE][];
-
-            for (int i = 0; i < WORLD_SIZE; i++)
-                chunks[i] = new Chunk[WORLD_SIZE];
+            tiles = new Tile[WORLD_WIGHT, WORLD_HEIGHT];
         }
 
         //world generation
-        public void GenerateWorld()
+        public void GenerateWorld(int seed = -1)
         {
-            //grass
-            for (int x = 3; x <= 46; x++)
-                for (int y = 17; y <= 17; y++)
-                    SetTile(TileType.GRASS, x, y);
+            rand = seed >= 0 ? new Random(seed) : new Random((int)DateTime.Now.Ticks);
 
-            //ground
-            for (int x = 3; x <= 46; x++)
-                for (int y = 18; y < 32; y++)
-                    SetTile(TileType.GROUND, x, y);
+            int groundLevelMax = rand.Next(10, 20);
+            int groundLevelMin = groundLevelMax + rand.Next(10, 20);
 
-            for (int x = 3; x <= 4; x++)
-                for (int y = 1; y < 17; y++)
-                    SetTile(TileType.GROUND, x, y);
-
-            for (int x = 45; x <= 46; x++)
-                for (int y = 1; y < 17; y++)
-                    SetTile(TileType.GROUND, x, y);
-        }
-
-        //tile
-        public void SetTile(TileType type, int x, int y)
-        {
-            Chunk chunk = GetChunk(x, y);
-            var tilePos = GetTilePosFromChunk(x, y); //tile position
-
-            Tile upTileNeighbor = GetTile(x, y - 1); //up
-            Tile downTileNeighbor = GetTile(x, y + 1); //down
-            Tile leftTileNeighbor = GetTile(x - 1, y); //left
-            Tile rightTileNeighbor = GetTile(x + 1, y); //right
-
-            chunk.SetTile(type, tilePos.X, tilePos.Y, upTileNeighbor, downTileNeighbor, leftTileNeighbor, rightTileNeighbor);
-        }
-        //get tile
-        public Tile GetTile(int x, int y)
-        {
-            Chunk chunk = GetChunk(x, y);
-            if (chunk == null)
-                return null;
-            //tile position in chunk
-            var tilePos = GetTilePosFromChunk(x, y);
-
-            return chunk.GetTile(tilePos.X, tilePos.Y);
-        }
-        //get chunk
-        public Chunk GetChunk(int x, int y)
-        {
-            int X = x / Chunk.CHUNK_SIZE;
-            int Y = y / Chunk.CHUNK_SIZE;
-
-            if (X >= WORLD_SIZE || Y >= WORLD_SIZE || X < 0 || Y < 0)
+            //gen ground level
+            int[] arr = new int[WORLD_WIGHT];
+            for (int i = 0; i < WORLD_WIGHT; i++)
             {
-                return null;
+                int dir = rand.Next(0, 2) == 1 ? 1 : -1;
+
+                if (i > 0)
+                {
+                    if (arr[i - 1] + dir < groundLevelMax || arr[i - 1] + dir > groundLevelMin)
+                        dir -= dir;
+
+                    arr[i] = arr[i - 1] + dir;
+                }
+                else
+                    arr[i] = groundLevelMin;
             }
 
-            if (chunks[X][Y] == null)
-                chunks[X][Y] = new Chunk(new Vector2i(X, Y));
+            //сглаживание
+            for (int i = 1; i < WORLD_WIGHT -1; i++)
+            {
+                float sum = arr[i];
+                int count = 1;
+                for (int k = 0; k <= 5; k++)
+                {
+                    int i1 = i - k;
+                    int i2 = i + k;
 
-            return chunks[X][Y];
+
+                    if(i1 > 0 )
+                    {
+                        sum += arr[i1];
+                        count++;
+                    }
+
+
+                    if(i2 < WORLD_WIGHT )
+                    {
+                        sum += arr[i2];
+                        count++;
+                    }
+                }
+
+                arr[i] = (int)(sum / count);
+            }
+
+
+            for (int i = 0; i < WORLD_WIGHT; i++)
+            {
+                SetTile(TileType.GRASS, i, arr[i]);
+                for (int j = arr[i]+1; j < WORLD_HEIGHT; j++)
+                    SetTile(TileType.GROUND, i, j);
+                
+            }
         }
-        //get tile in chunk
-        public Vector2i GetTilePosFromChunk(int x, int y)
+
+        //set tile
+        public void SetTile(TileType type, int i, int j)
         {
-            int X = x / Chunk.CHUNK_SIZE;
-            int Y = y / Chunk.CHUNK_SIZE;
 
-            return new Vector2i(x - X * Chunk.CHUNK_SIZE, y - Y * Chunk.CHUNK_SIZE);
+            Tile upTileNeighbor = GetTile(i, j - 1); //up
+            Tile downTileNeighbor = GetTile(i, j + 1); //down
+            Tile leftTileNeighbor = GetTile(i - 1, j); //left
+            Tile rightTileNeighbor = GetTile(i + 1, j); //right
+
+            if (type != TileType.NONE)
+            {
+                var tile = new Tile(type, upTileNeighbor, downTileNeighbor, leftTileNeighbor, rightTileNeighbor);
+                tile.Position = new Vector2f(i * Tile.TILE_SIZE, j * Tile.TILE_SIZE) + Position;
+                tiles[i, j] = tile;
+            }
+            else
+            {
+                tiles[i, j] = null;
+
+                if (upTileNeighbor != null)
+                    upTileNeighbor.DownTile = null;
+                if (downTileNeighbor != null)
+                    downTileNeighbor.UpTile = null;
+                if (leftTileNeighbor != null)
+                    leftTileNeighbor.RightTile = null;
+                if (rightTileNeighbor != null)
+                    rightTileNeighbor.LeftTile = null;
+            }
         }
+
+        //get tile by world pos
+        public Tile GetTileByWorldPos(float x, float y)
+        {
+            int i = (int)(x / Tile.TILE_SIZE);
+            int j = (int)(y / Tile.TILE_SIZE);
+            return GetTile(i, j);
+        }
+        public Tile GetTileByWorldPos(Vector2f pos)
+        {
+            return GetTileByWorldPos(pos.X, pos.Y);
+        }
+        public Tile GetTileByWorldPos(Vector2i pos)
+        {
+            return GetTileByWorldPos(pos.X, pos.Y);
+        }
+
+        //get tile
+        public Tile GetTile(int i, int j)
+        {
+            if (i >= 0 && j >= 0 && i < WORLD_WIGHT && j < WORLD_HEIGHT)
+                return tiles[i, j];
+            else
+                return null;
+        }
+
 
         public void Draw(RenderTarget target, RenderStates states)
         {
-            for (int x = 0; x < WORLD_SIZE; x++)
+            for (int i = 0; i < main.Window.Size.X / Tile.TILE_SIZE + 1; i++)
             {
-                for (int y = 0; y < WORLD_SIZE; y++)
+                for (int j = 0; j < main.Window.Size.Y / Tile.TILE_SIZE + 1; j++)
                 {
-                    if (chunks[x][y] == null) continue;
-
-                    target.Draw(chunks[x][y]);
+                    if (tiles[i, j] != null)
+                        target.Draw(tiles[i, j]);
                 }
             }
         }

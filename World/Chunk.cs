@@ -13,7 +13,7 @@ namespace Terraria
         public Chunk(Vector2i chunkPos)
         {
             this.chunkPos = chunkPos;
-            Position = new Vector2f(chunkPos.X * CHUNK_SIZE * Tile.TILE_SIZE, chunkPos.Y * CHUNK_SIZE*Tile.TILE_SIZE);
+            Position = new Vector2f(chunkPos.X * CHUNK_SIZE * Tile.TILE_SIZE, chunkPos.Y * CHUNK_SIZE * Tile.TILE_SIZE);
             tiles = new Tile[CHUNK_SIZE][];
 
             for (int i = 0; i < CHUNK_SIZE; i++)
@@ -21,10 +21,26 @@ namespace Terraria
 
         }
 
-        public void SetTile(TileType type, int x , int y, Tile upTileNeighbor, Tile downTileNeighbor , Tile leftTileNeighbor, Tile rightTileNeighbor)
+        public void SetTile(TileType type, int i, int j, Tile upTileNeighbor, Tile downTileNeighbor, Tile leftTileNeighbor, Tile rightTileNeighbor)
         {
-            tiles[x][y] = new Tile(type, upTileNeighbor , downTileNeighbor , leftTileNeighbor , rightTileNeighbor);
-            tiles[x][y].Position = new Vector2f(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE) + Position;
+            if (type != TileType.NONE)
+            {
+                tiles[i][j] = new Tile(type, upTileNeighbor, downTileNeighbor, leftTileNeighbor, rightTileNeighbor);
+                tiles[i][j].Position = new Vector2f(i * Tile.TILE_SIZE, j * Tile.TILE_SIZE) + Position;
+            }
+            else
+            {
+                tiles[i][j] = null;
+
+                if (upTileNeighbor != null)
+                    upTileNeighbor.DownTile = null;
+                if (downTileNeighbor != null)
+                    downTileNeighbor.UpTile = null;
+                if (leftTileNeighbor != null)
+                    leftTileNeighbor.RightTile = null;
+                if (rightTileNeighbor != null)
+                    rightTileNeighbor.LeftTile = null;
+            }
         }
         public Tile GetTile(int x, int y)
         {

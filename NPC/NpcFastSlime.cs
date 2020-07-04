@@ -17,7 +17,7 @@ namespace Terraria.NPC
         
         public override Vector2f GetJumpVelocity()
         {
-            return new Vector2f(Direction * main.rand.Next(30, 40), -main.rand.Next(6, 9));
+            return new Vector2f(Direction * World.rand.Next(30, 40), -World.rand.Next(6, 9));
         }
     }
 }

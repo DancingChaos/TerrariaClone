@@ -62,7 +62,7 @@ namespace Terraria.NPC
 
 
             //если обьект упал за мир
-            if (Position.Y > main.win.Size.Y)
+            if (Position.Y > main.Window.Size.Y)
                 OnKill();
         }
 
