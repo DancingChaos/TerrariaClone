@@ -34,7 +34,7 @@ namespace Terraria
             slime.Spawn();
 
             //slimes 
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 15; i++)
             {
                 var s = new NpcSlime(world);
                 s.StartPosition = new Vector2f(main.rand.Next(150, 600), 150);

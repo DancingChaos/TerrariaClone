@@ -14,16 +14,74 @@ namespace Terraria.NPC
         SpriteSheet spriteSheet;
         float waitTimer = 0f;
 
+        int minSlimeColor = 230;
+        int maxSlimeColor = 30;
+        int slimeVisible = 220;
+
         public NpcSlime(World world) : base(world)
         {
             spriteSheet = new SpriteSheet(1, 2, 0, (int)Content.texNpcSlime.Size.X, (int)Content.texNpcSlime.Size.Y);
 
             rect = new RectangleShape(new Vector2f(spriteSheet.SubWight / 1.5f, spriteSheet.SubHeight / 1.5f));
             rect.Origin = new Vector2f(rect.Size.X / 2, 0);
-            rect.FillColor = Color.Blue;
+            rect.FillColor = GetRandomSlimeColor();
 
             rect.Texture = Content.texNpcSlime;
             rect.TextureRect = spriteSheet.GetTextureRect(0, 0);
+        }
+
+        //random sexy color
+        public Color GetRandomSlimeColor()
+        {
+            int rMin = 0, gMin = 0, bMin = 0;
+            int rMax = 255, gMax = 255, bMax = 255;
+
+            switch (main.rand.Next(1, 8))
+            {
+                case 1: //all
+                    rMin = minSlimeColor;
+                    gMin = minSlimeColor;
+                    bMin = minSlimeColor;
+                    break;
+                case 2: //red&green
+                    rMin = minSlimeColor;
+                    gMin = minSlimeColor;
+                    bMax = maxSlimeColor;//
+                    break;
+                case 3: //red&blue
+                    rMin = minSlimeColor;
+                    gMax = maxSlimeColor;//
+                    bMin = minSlimeColor;
+                    break;
+                case 4: //red
+                    rMin = minSlimeColor;
+                    gMax = maxSlimeColor;//
+                    bMax = maxSlimeColor;//
+                    break;
+                case 5: //green&blue
+                    rMax = maxSlimeColor;//
+                    gMin = minSlimeColor;
+                    bMin = minSlimeColor;
+                    break;
+                case 6://green
+                    rMax = maxSlimeColor;//
+                    gMin = minSlimeColor;
+                    bMax = maxSlimeColor;//
+                    break;
+                case 7://blue
+                    rMax = maxSlimeColor;//
+                    gMax = maxSlimeColor;//
+                    bMin = minSlimeColor;
+                    break;
+                case 8://gray
+                    rMax = maxSlimeColor;//
+                    gMax = maxSlimeColor;//
+                    bMax = maxSlimeColor;//
+                    break;
+                
+            }
+
+            return new Color(Convert.ToByte(main.rand.Next(rMin, rMax)), Convert.ToByte(main.rand.Next(gMin, gMax)), Convert.ToByte(main.rand.Next(bMin, bMax)), Convert.ToByte(slimeVisible));
         }
 
 
@@ -56,7 +114,7 @@ namespace Terraria.NPC
             }
             else
             {
-                rect.TextureRect = spriteSheet.GetTextureRect(0,1);
+                rect.TextureRect = spriteSheet.GetTextureRect(0, 1);
             }
         }
 
