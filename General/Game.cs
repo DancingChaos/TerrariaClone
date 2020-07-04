@@ -13,6 +13,7 @@ namespace Terraria
         World world;
         Player player;
         NpcSlime slime;
+        NpcFastSlime fastSlime;
 
         //slimes
         List<NpcSlime> slimes = new List<NpcSlime>();
@@ -33,8 +34,13 @@ namespace Terraria
             slime.StartPosition = new SFML.System.Vector2f(500, 150);
             slime.Spawn();
 
+            //Spawn fast slime
+            fastSlime = new NpcFastSlime(world);
+            fastSlime.StartPosition = new SFML.System.Vector2f(350, 130);
+            fastSlime.Spawn();
+
             //slimes 
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var s = new NpcSlime(world);
                 s.StartPosition = new Vector2f(main.rand.Next(150, 600), 150);
@@ -49,6 +55,7 @@ namespace Terraria
         {
             player.Update();
             slime.Update();
+            fastSlime.Update();
             //slimes 
             foreach (var s in slimes)
                 s.Update();
@@ -58,6 +65,7 @@ namespace Terraria
             main.win.Draw(world);
             main.win.Draw(player);
             main.win.Draw(slime);
+            main.win.Draw(fastSlime);
             //slimes 
             foreach (var s in slimes)
                 main.win.Draw(s);

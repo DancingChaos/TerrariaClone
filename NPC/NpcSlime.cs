@@ -14,8 +14,8 @@ namespace Terraria.NPC
         SpriteSheet spriteSheet;
         float waitTimer = 0f;
 
-        int minSlimeColor = 230;
-        int maxSlimeColor = 30;
+        int minSlimeColor = 240;
+        int maxSlimeColor = 15;
         int slimeVisible = 220;
 
         public NpcSlime(World world) : base(world)
@@ -95,7 +95,7 @@ namespace Terraria.NPC
             {
                 if (waitTimer >= TIME_WAIT_JUMP)
                 {
-                    velocity = new Vector2f(Direction * main.rand.Next(1, 10), -main.rand.Next(6, 9));
+                    velocity = GetJumpVelocity();
                     waitTimer = 0f;
                 }
                 else
@@ -113,6 +113,12 @@ namespace Terraria.NPC
 
         public override void DrawNPC(RenderTarget target, RenderStates states)
         {
+        }
+
+        //GetJumpVelocity
+        public virtual Vector2f GetJumpVelocity()
+        {
+            return new Vector2f(Direction * main.rand.Next(1, 10), -main.rand.Next(6, 9));
         }
     }
 }
