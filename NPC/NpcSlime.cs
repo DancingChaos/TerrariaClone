@@ -10,14 +10,20 @@ namespace Terraria.NPC
 {
     class NpcSlime : Npc
     {
+        const float TIME_WAIT_JUMP = 1f;
+        SpriteSheet spriteSheet;
+        float waitTimer = 0f;
 
         public NpcSlime(World world) : base(world)
         {
-            rect = new RectangleShape(new Vector2f(Tile.TILE_SIZE * 1.5f, Tile.TILE_SIZE * 1f));
+            spriteSheet = new SpriteSheet(1, 2, 0, (int)Content.texNpcSlime.Size.X, (int)Content.texNpcSlime.Size.Y);
+
+            rect = new RectangleShape(new Vector2f(spriteSheet.SubWight / 1.5f, spriteSheet.SubHeight / 1.5f));
             rect.Origin = new Vector2f(rect.Size.X / 2, 0);
-            Random r = new Random();
             rect.FillColor = Color.Blue;
 
+            rect.Texture = Content.texNpcSlime;
+            rect.TextureRect = spriteSheet.GetTextureRect(0, 0);
         }
 
 
@@ -29,14 +35,28 @@ namespace Terraria.NPC
         public override void OnWallCollided()
         {
             Direction *= -1;
-            velocity = new Vector2f(-velocity.X, velocity.Y);
+            velocity = new Vector2f(-velocity.X * 0.8f, velocity.Y);
         }
 
         public override void UpdateNpc()
         {
-            if(!isFly)
+            if (!isFly)
             {
-                velocity = new Vector2f(Direction * main.rand.Next(1,10), -main.rand.Next(6, 9));
+                if (waitTimer >= TIME_WAIT_JUMP)
+                {
+                    velocity = new Vector2f(Direction * main.rand.Next(1, 10), -main.rand.Next(6, 9));
+                    waitTimer = 0f;
+                }
+                else
+                {
+                    waitTimer += 0.05f;
+                    velocity.X = 0f;
+                }
+                rect.TextureRect = spriteSheet.GetTextureRect(0, 0);
+            }
+            else
+            {
+                rect.TextureRect = spriteSheet.GetTextureRect(0,1);
             }
         }
 

@@ -16,9 +16,8 @@ namespace Terraria.NPC
         protected Vector2f movement;
         protected World world;
         protected bool isFly = true;
-        //
-       
-        //
+        protected bool isRectVisible = true;
+      
         public int Direction
         {
             set
@@ -33,7 +32,8 @@ namespace Terraria.NPC
             }
 
         }
-
+         
+        //constuctor
         public Npc(World world)
         {
             this.world = world;
@@ -46,7 +46,7 @@ namespace Terraria.NPC
             velocity = new Vector2f();
         }
 
-
+        //Update
         public void Update()
         {
             UpdateNpc();
@@ -60,15 +60,18 @@ namespace Terraria.NPC
                 OnKill();
         }
 
-
+        //draw
         public void Draw(RenderTarget target, RenderStates states)
         {
             states.Transform *= Transform;
+            
+            if(isRectVisible)
             target.Draw(rect, states);
 
             DrawNPC(target, states);
         }
 
+        // UpdatePhysics
         public void UpdatePhysics()
         {
             bool isFall = true;
@@ -101,6 +104,7 @@ namespace Terraria.NPC
 
         }
 
+        //UpdatePhysicWall collision
         private void UpdatePhysicWall(FloatRect playerSprite, int pX, int pY)
         {
             Tile[] walls = new Tile[]

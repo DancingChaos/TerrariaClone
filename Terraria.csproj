@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -58,10 +59,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="General\Player.cs" />
+    <Compile Include="Animation\AnimSprite.cs" />
+    <Compile Include="NPC\Player.cs" />
     <Compile Include="NPC\Npc.cs" />
     <Compile Include="NPC\NpcSlime.cs" />
-    <Compile Include="SpriteSheet.cs" />
+    <Compile Include="Animation\SpriteSheet.cs" />
     <Compile Include="World\Chunk.cs" />
     <Compile Include="General\Content.cs" />
     <Compile Include="General\Game.cs" />
