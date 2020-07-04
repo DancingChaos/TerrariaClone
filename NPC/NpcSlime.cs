@@ -73,14 +73,7 @@ namespace Terraria.NPC
                     gMax = maxSlimeColor;//
                     bMin = minSlimeColor;
                     break;
-                case 8://gray
-                    rMax = maxSlimeColor;//
-                    gMax = maxSlimeColor;//
-                    bMax = maxSlimeColor;//
-                    break;
-                
             }
-
             return new Color(Convert.ToByte(main.rand.Next(rMin, rMax)), Convert.ToByte(main.rand.Next(gMin, gMax)), Convert.ToByte(main.rand.Next(bMin, bMax)), Convert.ToByte(slimeVisible));
         }
 

@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace Terraria.NPC
 {
+    enum DirectionType
+    {
+        Left,
+        Right,
+        Up,
+        Down
+    }
     abstract class Npc : Transformable, Drawable
     {
         public Vector2f StartPosition;
@@ -17,7 +24,7 @@ namespace Terraria.NPC
         protected World world;
         protected bool isFly = true;
         protected bool isRectVisible = true;
-      
+
         public int Direction
         {
             set
@@ -32,7 +39,7 @@ namespace Terraria.NPC
             }
 
         }
-         
+
         //constuctor
         public Npc(World world)
         {
@@ -52,7 +59,6 @@ namespace Terraria.NPC
             UpdateNpc();
             UpdatePhysics();
 
-            Position += movement + velocity;
 
 
             //если обьект упал за мир
@@ -64,9 +70,9 @@ namespace Terraria.NPC
         public void Draw(RenderTarget target, RenderStates states)
         {
             states.Transform *= Transform;
-            
-            if(isRectVisible)
-            target.Draw(rect, states);
+
+            if (isRectVisible)
+                target.Draw(rect, states);
 
             DrawNPC(target, states);
         }
@@ -74,77 +80,107 @@ namespace Terraria.NPC
         // UpdatePhysics
         public void UpdatePhysics()
         {
-            bool isFall = true;
             //innertion
             velocity.X *= 0.99f;
             //gravity
             velocity.Y += 0.25f;
 
-            Vector2f nextpos = Position + velocity - rect.Origin;
-            FloatRect playerSprite = new FloatRect(nextpos, rect.Size);
+            var offset = velocity + movement;
+            float dist = MathHelper.GetDistance(offset);
 
-            int pX = (int)((Position.X - rect.Origin.X + rect.Size.X / 2) / Tile.TILE_SIZE);
-            int pY = (int)((Position.Y + rect.Size.Y) / Tile.TILE_SIZE);
-            Tile tile = world.GetTile(pX, pY);
+            int countStep = 1;
+            float stepSize = (float)Tile.TILE_SIZE / 2;
+            if (dist > stepSize)
+                countStep = (int)(dist / stepSize);
 
-            if (tile != null)
+
+            Vector2f nextpos = Position + offset;
+            Vector2f stepPos = Position - rect.Origin;
+            FloatRect stepRect = new FloatRect(stepPos, rect.Size);
+            Vector2f stepVec = (nextpos - Position) / countStep;
+
+            for (int step = 0; step < countStep; step++)
             {
+                bool isBreakStep = false;
 
-                FloatRect tileRect = new FloatRect(tile.Position, new Vector2f(Tile.TILE_SIZE, Tile.TILE_SIZE));
+                stepPos += stepVec;
+                stepRect = new FloatRect(stepPos, rect.Size);
 
-                isFall = !playerSprite.Intersects(tileRect);
-                isFly = isFall;
+                int i = (int)((stepPos.X + rect.Size.X / 2) / Tile.TILE_SIZE);
+                int j = (int)((stepPos.Y + rect.Size.Y) / Tile.TILE_SIZE);
+                Tile tile = world.GetTile(i, j);
+
+                if (tile != null)
+                {
+
+                    FloatRect tileRect = new FloatRect(tile.Position, new Vector2f(Tile.TILE_SIZE, Tile.TILE_SIZE));
+
+                    if (updateCollision(stepRect, tileRect, DirectionType.Down, ref stepPos))
+                    {
+                        velocity.Y = 0;
+                        isFly = false;
+                        isBreakStep = true;
+                    }
+                    else
+                        isFly = true;
+                }
+                else
+                    isFly = true;
+
+                if (updateWallColision(i, j, -1, ref stepPos, stepRect) || updateWallColision(i, j, 1, ref stepPos, stepRect))
+                {
+                    OnWallCollided();
+                    isBreakStep = true;
+                }
+                if (isBreakStep)
+                    break;
             }
-            if (!isFall)
-            {
-                velocity.Y = 0;
-            }
 
-            UpdatePhysicWall(playerSprite, pX, pY);
-
+            Position = stepPos + rect.Origin;
         }
 
         //UpdatePhysicWall collision
-        private void UpdatePhysicWall(FloatRect playerSprite, int pX, int pY)
+        bool updateWallColision(int i, int j, int iOffset, ref Vector2f stepPos, FloatRect stepRect)
         {
+            var dirType = iOffset > 0 ? DirectionType.Right : DirectionType.Left;
+
             Tile[] walls = new Tile[]
             {
-                world.GetTile(pX-1,pY-1),
-                world.GetTile(pX-1,pY-2),
-                world.GetTile(pX-1,pY-3),
-                world.GetTile(pX+1,pY-1),
-                world.GetTile(pX+1,pY-2),
-                world.GetTile(pX+1,pY-3)
+                world.GetTile(i + iOffset, j -1),
+                world.GetTile(i + iOffset, j -2),
+                world.GetTile(i + iOffset, j -3),
             };
-            foreach (Tile tile in walls)
+
+            bool isWallCollided = false;
+            foreach (Tile t in walls)
             {
-                if (tile == null)
+                if (t == null)
                     continue;
-                FloatRect tileRect = new FloatRect(tile.Position, new Vector2f(Tile.TILE_SIZE, Tile.TILE_SIZE));
 
-                if (playerSprite.Intersects(tileRect))
-                {
-                    Vector2f offset = new Vector2f(playerSprite.Left - tileRect.Left, 0);
-                    offset.X /= Math.Abs(offset.X);
+                FloatRect tileRect = new FloatRect(t.Position, new Vector2f(Tile.TILE_SIZE, Tile.TILE_SIZE));
 
-                    float speed = Math.Abs(movement.X);
-                    //npc collision
-                    if (offset.X > 0)
-                    {
-                        Position = new Vector2f((tileRect.Left + tileRect.Width) + playerSprite.Width / 2, Position.Y);
-                        movement.X = 0;
-                    }
-                    else if (offset.X < 0)
-                    {
-                        Position = new Vector2f(tileRect.Left - playerSprite.Width/2, Position.Y);
-                        movement.X = 0;
-                    }
-                    OnWallCollided();
-                }
+                if (updateCollision(stepRect, tileRect, dirType, ref stepPos))
+                    isWallCollided = true;
             }
+
+            return isWallCollided;
         }
 
-
+        bool updateCollision(FloatRect rectNPC, FloatRect rectTile, DirectionType direction, ref Vector2f pos)
+        {
+            if (rectNPC.Intersects(rectTile))
+            {
+                switch (direction)
+                {
+                    case DirectionType.Up: pos = new Vector2f(pos.X, rectTile.Top + rectTile.Height - 1); break;
+                    case DirectionType.Down: pos = new Vector2f(pos.X, rectTile.Top - rectNPC.Height + 1); break;
+                    case DirectionType.Left: pos = new Vector2f(rectTile.Left + rectTile.Width - 1, pos.Y); break;
+                    case DirectionType.Right: pos = new Vector2f(rectTile.Left - rectNPC.Width + 1, pos.Y); break;
+                }
+                return true;
+            }
+            return false;
+        }
 
         public abstract void OnKill();
         public abstract void OnWallCollided();

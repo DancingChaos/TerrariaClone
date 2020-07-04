@@ -14,7 +14,9 @@ namespace Terraria
     class Player : Npc
     {
         public const float PLAYER_SPEED = 3f;
+        public const float PLAYER_JUMP_POWER = 8f;
         public const float PLAYER_SPEED_ACCELERATION = 0.2f;
+
 
         //color base
         public Color HairColor = new Color(240, 20, 20);   //HairColor
@@ -240,8 +242,13 @@ namespace Terraria
         {
             bool isLeft = Keyboard.IsKeyPressed(Keyboard.Key.A);
             bool isRight = Keyboard.IsKeyPressed(Keyboard.Key.D);
+            bool isJump = Keyboard.IsKeyPressed(Keyboard.Key.Space);
             bool isMove = isLeft || isRight;
 
+            if (isJump && !isFly)
+            {
+                velocity.Y -= PLAYER_JUMP_POWER;
+            }
             if (isMove) // movement
             {
                 if (isLeft)

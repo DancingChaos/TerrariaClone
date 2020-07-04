@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animation\AnimSprite.cs" />
+    <Compile Include="MathHelper.cs" />
     <Compile Include="NPC\Player.cs" />
     <Compile Include="NPC\Npc.cs" />
     <Compile Include="NPC\NpcSlime.cs" />
