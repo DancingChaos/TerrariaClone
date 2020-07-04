@@ -29,6 +29,7 @@ namespace Terraria.NPC
         public override void OnWallCollided()
         {
             Direction *= -1;
+            velocity = new Vector2f(-velocity.X, velocity.Y);
         }
 
         public override void UpdateNpc()

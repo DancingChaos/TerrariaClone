@@ -49,7 +49,7 @@ namespace Terraria
         {
             player.Update();
             slime.Update();
-
+            //slimes 
             foreach (var s in slimes)
                 s.Update();
         }
@@ -58,7 +58,7 @@ namespace Terraria
             main.win.Draw(world);
             main.win.Draw(player);
             main.win.Draw(slime);
-
+            //slimes 
             foreach (var s in slimes)
                 main.win.Draw(s);
         }

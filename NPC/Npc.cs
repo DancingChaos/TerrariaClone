@@ -129,13 +129,11 @@ namespace Terraria.NPC
                     {
                         Position = new Vector2f((tileRect.Left + tileRect.Width) + playerSprite.Width / 2, Position.Y);
                         movement.X = 0;
-                        velocity.X = 0;
                     }
                     else if (offset.X < 0)
                     {
                         Position = new Vector2f(tileRect.Left - playerSprite.Width/2, Position.Y);
                         movement.X = 0;
-                        velocity.X = 0;
                     }
                     OnWallCollided();
                 }
