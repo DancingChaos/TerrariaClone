@@ -8,9 +8,8 @@ namespace Terraria.Items
 {
     class ItemTile : Item
     {
-        public ItemTile(World world, Tile tile) : base(world, tile.SpriteSheet, 9, 3)
+        public ItemTile(World world, InfoItem infoItem) : base(world, infoItem)
         {
-
         }
 
         public override void OnWallCollided()

@@ -113,7 +113,7 @@ namespace Terraria
                 var tile = tiles[i, j];
                 if (tile != null)
                 {
-                    var item = new ItemTile(this, tile);
+                    var item = new ItemTile(this, InfoItem.ItemGround);
                     item.Position = tile.Position;
                     items.Add(item);
                 }
@@ -159,13 +159,16 @@ namespace Terraria
         //update world
         public void Update()
         {
-            for (int i = 0; i < items.Count; i++)
+            int i = 0;
+                while (i < items.Count)
             {
                 if (items[i].isDestroyed)
                     items.RemoveAt(i);
                 else
+                {
                     items[i].Update();
-
+                    i++;
+                }
             }
         }
 

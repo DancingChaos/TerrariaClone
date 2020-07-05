@@ -12,40 +12,53 @@ namespace Terraria
         private const string path_to_res = "..\\Resources\\Textures\\"; // exile to res
         private const string path_to_npc = "\\npc\\";                   // exile to npc
         private const string path_to_player = "\\player\\";             // exile to player
+        private const string path_to_ui = "\\ui\\";                     // exile to ui
+        public static readonly string FONT_DIR = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Fonts) + "\\";
 
         //MAP
-        public static Texture ground; //ground
-        public static Texture grass;  //grass
+        public static SpriteSheet ssGround; //ground
+        public static SpriteSheet ssGrass;  //grass
 
         //NPC
-        public static Texture texNpcSlime;  //slime
-       
+        public static SpriteSheet ssNpcSlime;  //slime
+
         //PLAYER
-        public static Texture texPlayerHair;  
-        public static Texture texPlayerHands;  
-        public static Texture texPlayerHead;  
-        public static Texture texPlayerLegs;  
-        public static Texture texPlayerShirt;  
-        public static Texture texPlayerShoes;  
-        public static Texture texPlayerUndershirt;  
+        public static SpriteSheet ssPlayerHair;
+        public static SpriteSheet ssPlayerHands;
+        public static SpriteSheet ssPlayerHead;
+        public static SpriteSheet ssPlayerLegs;
+        public static SpriteSheet ssPlayerShirt;
+        public static SpriteSheet ssPlayerShoes;
+        public static SpriteSheet ssPlayerUndershirt;
+
+        //UI
+        public static Texture texUIInventoryBack;       //inventory back
+
+        public static Font font;       // Шрифт
 
         public static void Load()
         {
             //MAP
-            ground = new Texture(path_to_res + "Ground_Texture.png");           //ground
-            grass = new Texture(path_to_res + "Grass_Texture.png");             //grass
+            ssGround = new SpriteSheet(Tile.TILE_SIZE, Tile.TILE_SIZE, false, 1, new Texture(path_to_res + "Ground_Texture.png"));           //ground
+            ssGrass = new SpriteSheet(Tile.TILE_SIZE, Tile.TILE_SIZE, false, 1, new Texture(path_to_res + "Grass_Texture.png"));             //grass
 
             //NPC
-            texNpcSlime = new Texture(path_to_res + path_to_npc + "slime.png"); //slime
+            ssNpcSlime = new SpriteSheet(1, 2, true, 0, new Texture(path_to_res + path_to_npc + "slime.png")); //slime
 
             //PLAYER
-            texPlayerHair = new Texture(path_to_res + path_to_player + "Hair.png");
-            texPlayerHands = new Texture(path_to_res + path_to_player + "Hands.png");
-            texPlayerHead = new Texture(path_to_res + path_to_player + "Head.png");
-            texPlayerLegs = new Texture(path_to_res + path_to_player + "Legs.png");
-            texPlayerShirt = new Texture(path_to_res + path_to_player + "Shirt.png");
-            texPlayerShoes = new Texture(path_to_res + path_to_player + "Shoes.png");
-            texPlayerUndershirt = new Texture(path_to_res + path_to_player + "Undershirt.png");
+            ssPlayerHair =       new SpriteSheet(1, 14, true, 0, new Texture(path_to_res + path_to_player + "Hair.png"));
+            ssPlayerHands =      new SpriteSheet(1, 20, true, 0, new Texture(path_to_res + path_to_player + "Hands.png"));
+            ssPlayerHead =       new SpriteSheet(1, 20, true, 0, new Texture(path_to_res + path_to_player + "Head.png"));
+            ssPlayerLegs =       new SpriteSheet(1, 20, true, 0, new Texture(path_to_res + path_to_player + "Legs.png"));
+            ssPlayerShirt =      new SpriteSheet(1, 20, true, 0, new Texture(path_to_res + path_to_player + "Shirt.png"));
+            ssPlayerShoes =      new SpriteSheet(1, 20, true, 0, new Texture(path_to_res + path_to_player + "Shoes.png"));
+            ssPlayerUndershirt = new SpriteSheet(1, 20, true, 0, new Texture(path_to_res + path_to_player + "Undershirt.png"));
+
+            //UI
+            texUIInventoryBack = new Texture(path_to_res + path_to_ui + "Inventory_Back.png");
+            
+            // Шрифт
+            font = new Font(FONT_DIR + "Arial.ttf");
         }
     }
 }

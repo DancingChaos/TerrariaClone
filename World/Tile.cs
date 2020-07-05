@@ -8,16 +8,16 @@ namespace Terraria
     /// </summary>
     enum TileType
     {
-        NONE,     
-        GROUND,  
-        GRASS   
+        NONE,
+        GROUND,
+        GRASS
     }
 
     class Tile : Transformable, Drawable
     {
-       public const int TILE_SIZE = 16; //tile size
+        public const int TILE_SIZE = 16; //tile size
 
-        public SpriteSheet SpriteSheet {get; set;} //tile sprite set
+        public SpriteSheet SpriteSheet { get; set; } //tile sprite set
 
         TileType type = TileType.GROUND; //tile type
 
@@ -113,15 +113,15 @@ namespace Terraria
             switch (type)
             {
                 case TileType.GROUND:
-                    SpriteSheet = new SpriteSheet(TILE_SIZE, TILE_SIZE,false, 1, Content.ground); //блок с землей
+                    SpriteSheet = Content.ssGround; //блок с землей
                     break;
-                case TileType.GRASS: 
-                   SpriteSheet = new SpriteSheet(TILE_SIZE, TILE_SIZE, false, 1, Content.grass);//блок с травой
+                case TileType.GRASS:
+                    SpriteSheet = Content.ssGrass;//блок с травой
                     break;
             }
 
             rectShape.Texture = SpriteSheet.Texture;
-           
+
 
             //update viev with heighbor context
             UpdateView();
@@ -190,7 +190,7 @@ namespace Terraria
                 rectShape.TextureRect = SpriteSheet.GetTextureRect(1 + i * 2, 4);
             }
         }
-     //draw tile
+        //draw tile
         public void Draw(RenderTarget target, RenderStates states)
         {
             states.Transform *= Transform;

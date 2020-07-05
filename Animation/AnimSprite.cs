@@ -94,12 +94,12 @@ namespace Terraria
         }
 
         //constructor
-        public AnimSprite(Texture texture, SpriteSheet ss)
+        public AnimSprite( SpriteSheet ss)
         {
             this.ss = ss;
             rectShape = new RectangleShape(new Vector2f(ss.SubWight, ss.SubHeight));
             rectShape.Origin = new Vector2f(ss.SubWight / 2, ss.SubHeight / 2);
-            rectShape.Texture = texture;
+            rectShape.Texture = ss.Texture;
         }
 
         //add animation

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria.NPC;
+using Terraria.UI;
 
 namespace Terraria
 {
@@ -49,6 +50,12 @@ namespace Terraria
                 slimes.Add(s);
             }
 
+            //ad new UI window
+            Player.Inventory = new UIInventory();
+             UIManager.AddControl(Player.Inventory);
+
+
+
         }
 
         public void Update()
@@ -60,6 +67,10 @@ namespace Terraria
             //slimes 
             foreach (var s in slimes)
                 s.Update();
+
+            //update UI
+            UIManager.UpdateOver();
+            UIManager.Update();
         }
         public void Draw()
         {
@@ -70,6 +81,9 @@ namespace Terraria
             //slimes 
             foreach (var s in slimes)
                 main.Window.Draw(s);
+
+            //draw UI
+            UIManager.Draw();
         }
 
     }

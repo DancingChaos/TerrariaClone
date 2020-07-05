@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Terraria.UI;
 
 namespace Terraria.Items
 {
@@ -13,12 +13,15 @@ namespace Terraria.Items
     {
         public const float MOVE_DISTANCE_TO_PLAYER = 100f;
         public const float TAKE_DISTANCE_TO_PLAYER = 20f;
-
-        public Item(World world, SpriteSheet spriteSheet, int i, int j ) : base(world)
+        public const float MOVE_SPEED_COEF = 2f;          // Коэффицент увеличения скорости движения
+        InfoItem infoItem;
+        
+        public Item(World world, InfoItem infoItem) : base(world)
         {
-            rect = new RectangleShape(new Vector2f(spriteSheet.SubWight, spriteSheet.SubHeight));
-            rect.Texture = spriteSheet.Texture;
-            rect.TextureRect = spriteSheet.GetTextureRect(i,j);
+            this.infoItem = infoItem;
+            rect = new RectangleShape(new Vector2f(infoItem.SpriteSheet.SubWight, infoItem.SpriteSheet.SubHeight));
+            rect.Texture = infoItem.SpriteSheet.Texture;
+            rect.TextureRect = infoItem.SpriteSheet.GetTextureRect(infoItem.SpriteI, infoItem.SpriteJ);
         }
 
         public override void Update()
@@ -32,12 +35,14 @@ namespace Terraria.Items
                 if (dist<TAKE_DISTANCE_TO_PLAYER)
                 {
                     isDestroyed = true;
+
+                    main.game.Player.Inventory.AddItemStack(new UIItemStack(infoItem, 1));
                 }
                 else
                 {
                     Vector2f dir = MathHelper.Normalize(playerPos - Position);
                     float speed = 1f - dist / MOVE_DISTANCE_TO_PLAYER;
-                    velocity += dir * speed;
+                    velocity += dir * speed * MOVE_SPEED_COEF;
                 }
             }
 

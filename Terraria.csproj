@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animation\AnimSprite.cs" />
+    <Compile Include="Items\InfoItem.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\ItemTile.cs" />
     <Compile Include="NPC\Entity.cs" />
@@ -69,6 +70,12 @@
     <Compile Include="NPC\Npc.cs" />
     <Compile Include="NPC\NpcSlime.cs" />
     <Compile Include="Animation\SpriteSheet.cs" />
+    <Compile Include="UI\UIInventory.cs" />
+    <Compile Include="UI\UIInventoryCell.cs" />
+    <Compile Include="UI\UIItemStack.cs" />
+    <Compile Include="UI\UIManager.cs" />
+    <Compile Include="UI\UIBase.cs" />
+    <Compile Include="UI\UIWindow.cs" />
     <Compile Include="World\Chunk.cs" />
     <Compile Include="General\Content.cs" />
     <Compile Include="General\Game.cs" />

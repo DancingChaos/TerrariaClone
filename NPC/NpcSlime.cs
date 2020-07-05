@@ -20,13 +20,13 @@ namespace Terraria.NPC
 
         public NpcSlime(World world) : base(world)
         {
-            spriteSheet = new SpriteSheet(1, 2, true, 0, Content.texNpcSlime);
+            spriteSheet = Content.ssNpcSlime;
 
             rect = new RectangleShape(new Vector2f(spriteSheet.SubWight / 1.5f, spriteSheet.SubHeight / 1.5f));
             rect.Origin = new Vector2f(rect.Size.X / 2, 0);
             rect.FillColor = GetRandomSlimeColor();
 
-            rect.Texture = Content.texNpcSlime;
+            rect.Texture = spriteSheet.Texture;
             rect.TextureRect = spriteSheet.GetTextureRect(0, 0);
         }
 
